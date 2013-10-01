@@ -4,6 +4,9 @@
 	[re])
 
 (defun get-font-metadata [ fontfile]
+  "Given the font file function checks for its existence then runs the
+  otfinfo tool from lcdf-typetools package to extract metadata
+  information and returns the parsed dict."
   (if (not (exists fontfile))
     (kwapply (print "Please give existent font file")
 	     {"file" sys.stderr}))
