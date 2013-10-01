@@ -18,7 +18,6 @@
 	  (assoc metadict (.group regmatch 1)
 		 (.group regmatch 2))	  
 	  (.append copyright-text line))))
-    (print copyright-text)
     (if (in "Copyright" metadict)
 	(assoc metadict "Copyright"
 	       (.format "{}\n{}"
