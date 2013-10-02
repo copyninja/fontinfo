@@ -34,9 +34,9 @@
 	    (assoc metadict (.group regmatch 1)
 		   (.group regmatch 2))
 	    (.append copyright-text line))))
-      (assoc metadict "Copyright"
+      (assoc metadict "License Description"
 	     (.format "{}\n{}" 
-		      (get metadict "Copyright")
+		      (get metadict "License Description")
 		      (.join "\n" copyright-text)))
       metadict)
     (.exit sys 2)))
