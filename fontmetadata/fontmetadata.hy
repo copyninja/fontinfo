@@ -57,7 +57,7 @@
       (foreach [line (.split output "\n")]
 	(if (> (len (.strip line)) 0)
 	  (let [[values (.split line)]]
-	    (assoc langdict (.strip (get values 0))
-		   (.strip (get values 1))))))
+	    (assoc langdict (car values)
+		   (.strip (cdr values))))))
       langdict)
     (.exit sys 2)))
