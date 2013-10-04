@@ -33,11 +33,15 @@
 	  (if (!= regmatch None)
 	    (assoc metadict (.group regmatch 1)
 		   (.group regmatch 2))
-	    (.append copyright-text line))))
-      (assoc metadict "License Description"
-	     (.format "{}\n{}" 
-		      (get metadict "License Description")
-		      (.join "\n" copyright-text)))
+	     (if (not (in "License Description" metadict))
+	       (assoc metadict "Copyright"
+		      (.format "{}\n{}"
+			       (get metadict "Copyright")
+			       line))
+	       (assoc metadict "License Description"
+		      (.format "{}\n{}"
+			       (get metadict "License Description")
+			       line))))))
       metadict)
     (.exit sys 2)))
 
