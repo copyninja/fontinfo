@@ -43,7 +43,7 @@
 			       (get metadict "License Description")
 			       line))))))
       metadict)
-    (.exit sys 2)))
+    False))
 
 (defun get-font-supported-langs [ fontfile ]
   "Function returns dictionary containing language supported by
@@ -62,6 +62,6 @@
 	(if (> (len (.strip line)) 0)
 	  (let [[values (.split line)]]
 	    (assoc langdict (car values)
-		   (.strip (cdr values))))))
+		   (.strip (.join " " (cdr values)))))))
       langdict)
-    (.exit sys 2)))
+    False))
