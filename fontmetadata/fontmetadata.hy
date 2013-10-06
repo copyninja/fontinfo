@@ -17,7 +17,8 @@
 (defun get-font-metadata [ fontfile]
   "Given the `fontfile` function checks for its existence then runs the
   otfinfo tool from lcdf-typetools package to extract metadata
-  information and returns the parsed dict.
+  information and returns the parsed dict. On providing non existent
+  file it will return `False`.
   .
   The function possibly raises CalledProcessError on wrong input and
   it should be handled appropriately by caller."
@@ -48,7 +49,7 @@
 (defun get-font-supported-langs [ fontfile ]
   "Function returns dictionary containing language supported by
   `fontfile`. If non existent file is give function will return
-  error.
+  `False`.
   .
   The function possibly raises CalledProcessError on wrong input and
   it should be handled by caller appropriately."
