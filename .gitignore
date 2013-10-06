@@ -1,1 +1,3 @@
 /fontmetadata/.ropeproject/
+/tests/__pycache__/
+/.coverage
