@@ -1,0 +1,93 @@
+#!/usr/bin/env python
+
+from hy.importer import import_file_to_module
+
+import argparse
+import sys
+import glob
+import os
+
+__version__ = "0.1"
+
+USAGE = "%(prog)s --yaml [-h | -o outputfile ] [ -d --directory | file[s]]"
+VERSION = "%(prog)s " + __version__
+EPILOG = """ file  OpenType font file
+"""
+
+def font_glob(path):
+    ttffonts = glob.glob(os.path.join(path, "*.ttf"))
+    otffonts = glob.glob(os.path.join(path, "*.otf"))
+    
+    if len(otffonts) > 0:
+        ttffonts.extend(otffonts)
+        return set(ttffonts)
+    else:
+        return set(ttffonts)
+
+def cmdline_handler(scriptname, argv):
+    parser = argparse.ArgumentParser(
+        prog="fontinfo",
+        usage=USAGE,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=EPILOG
+    )
+
+    parser.add_argument("-y", "--yaml", action="store_true", required=False,
+                        help="Export metadata from font into YAML format.")
+    parser.add_argument("-j", "--json", action="store_true", required=False,
+                        help="Export metadata info JSON format.")
+    parser.add_argument("-o", dest="outfile", required=False,
+                        help="Store output to outfile")
+    parser.add_argument("-d", "--directory", dest="font_directory",
+                        help="Directory to scan for fonts")
+    parser.add_argument("-v", action="version", version=VERSION)
+    parser.add_argument("args", nargs=argparse.REMAINDER,
+                        help=argparse.SUPPRESS)
+
+    options = parser.parse_args(argv[1:])
+
+    if options.font_directory and options.args:
+        print("Please use either -d or provide file[s]",
+              file=sys.stderr)
+        sys.exit(2)
+
+    fontmetadata = import_file_to_module("fontmetadata",
+                                         "fontmetadata/fontmetadata.hy")
+
+    fontinfos = {}
+    fonts = None
+
+    if options.font_directory:
+        fonts = font_glob(options.font_directory)
+        if len(fonts) == 0:
+            print("Directory doesn't contain any otf/ttf fonts",
+                  file=sys.stderr)
+    else:
+        if not options.args:
+            print("Either -d or file should be specified", file=sys.stderr)
+            sys.exit(2)
+
+        fonts = options.args
+
+    for font in fonts:
+        print(font)
+        info = fontmetadata.get_font_info(font)
+        if info:
+            fontname = info["Family"] if "Family" in info else \
+                       os.path.normpath(font).split(os.path.sep)[-1].split(".")[0]
+            fontinfos[fontname] = info
+
+    print(fontinfos)
+
+if __name__ == "__main__":
+    cmdline_handler("fontinfo", sys.argv)
+
+
+
+
+
+
+
+
+
+
