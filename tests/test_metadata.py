@@ -54,3 +54,15 @@ def test_fontsupportedlangs():
 
     assert fontmetadata.get_font_supported_langs(
         "./tests/resources/DejaVuSans-BoldOblique.ttf") == preextracted_dict
+
+
+def test_fontinfo():
+    "test entire fontinfo generation"
+    import json
+
+    preextracted_dict = None
+    with open("./tests/resources/Gubbi.dict", "r") as fd:
+        preextracted_dict = json.loads(fd.read())
+
+    assert fontmetadata.get_font_info(
+        "./tests/resources/Gubbi.ttf") == preextracted_dict
