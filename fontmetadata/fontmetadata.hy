@@ -14,6 +14,16 @@
      False)
     True))
 
+(defun opentype2-scripts []
+  "Some of new tags introduced in new OpenType specs, this can be
+  dropped  once new version of lcdf-typetools is packaged."
+  {
+   "knd2" "Kannada" "bng2" "Bengali" "dev2" "Devanagari"
+	  "gjr2" "Gujarati" "gur2" "Gurumukhi" "mlm2" "Malayalam"
+	  "ory2" "Oriya" "tml2" "Tamil" "tel2" "Telugu"
+	  "math" "Mathematical Alphanumeric Symbols" "nko" "N'ko"
+	  "tfng" "Tifinagh"})
+
 (defun get-font-metadata [ fontfile]
   "Given the `fontfile` function checks for its existence then runs the
   otfinfo tool from lcdf-typetools package to extract metadata
