@@ -77,7 +77,21 @@ def cmdline_handler(scriptname, argv):
                        os.path.normpath(font).split(os.path.sep)[-1].split(".")[0]
             fontinfos[fontname] = info
 
-    print(fontinfos)
+    output = None
+
+    if options.json:
+        import json
+        output = json.dumps(fontinfos, indent=-4)
+    elif options.yaml:
+        import yaml
+        output = yaml.dump(fontinfos)
+
+    if options.outfile:
+        with open(options.outfile, "w") as fd:
+            fd.write(output)
+    else:
+        print(output)
+
 
 if __name__ == "__main__":
     cmdline_handler("fontinfo", sys.argv)
