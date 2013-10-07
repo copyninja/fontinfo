@@ -79,3 +79,17 @@
 		   (.strip (.join " " (cdr values)))))))
       langdict)
     False))
+
+(defun get-font-info [ fontfile ]
+  (let [[metainfo (get-font-metadata fontfile)]
+	[langinfo (get-font-supported-langs fontfile)]]
+    (if (in "DFLT" langinfo)
+      (.pop langinfo "DFLT"))
+    (foreach [key (.keys langinfo)]
+      (if (and (= (get langinfo key) "<unknown script>")
+	       (in key (opentype2-scripts)))
+	(assoc langinfo key (get (opentype2-scripts) key))
+	))
+    (assoc metainfo "Languages"
+	   (.join ", " (.values langinfo)))
+    metainfo))
