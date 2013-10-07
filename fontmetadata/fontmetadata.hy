@@ -46,9 +46,12 @@
 		   (.group regmatch 2))
 	     (if (not (in "License Description" metadict))
 	       (assoc metadict "Copyright"
-		      (.format "{}\n{}"
-			       (get metadict "Copyright")
-			       line))
+		      (if (in "Copyright" metadict)
+			(.format "{}\n{}"
+				 (get metadict "Copyright")
+				 line)
+			line
+			))
 	       (assoc metadict "License Description"
 		      (.format "{}\n{}"
 			       (get metadict "License Description")
