@@ -9,7 +9,7 @@ import os
 
 __version__ = "0.1"
 
-USAGE = "%(prog)s --yaml [-h | -o outputfile ] [ -d --directory | file[s]]"
+USAGE = "%(prog)s [--yaml|--json] [-h | -o outputfile ] [ -d --directory | file[s]]"
 VERSION = "%(prog)s " + __version__
 EPILOG = """ file  OpenType font file
 """
