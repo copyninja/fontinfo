@@ -1,28 +1,28 @@
 from hy.importer import import_file_to_module
 from subprocess import CalledProcessError
 
-fontmetadata = import_file_to_module("fontmetadata",
-                                     "fontmetadata/fontmetadata.hy")
+metadataparser = import_file_to_module("metadataparser",
+                                     "metadataparser.hy")
 
 
 def test_nonexistent_font():
     "test when non existent file is given to function"
-    assert not fontmetadata.get_font_metadata("nonexistent.otf")
-    assert not fontmetadata.get_font_supported_langs("nonexistent.otf")
+    assert not metadataparser.get_font_metadata("nonexistent.otf")
+    assert not metadataparser.get_font_supported_langs("nonexistent.otf")
 
 
 def test_invalid_font():
     "Pass invalid otf file"
     def _invalid_font_metadata():
         try:
-            return fontmetadata.get_font_metadata(
+            return metadataparser.get_font_metadata(
                 "./tests/resources/notavalidotf.ttf")
         except CalledProcessError:
             return "Error"
 
     def _invalid_font_supported_langs():
         try:
-            return fontmetadata.get_font_supported_langs(
+            return metadataparser.get_font_supported_langs(
                 "./tests/resources/notavalidotf.ttf")
         except CalledProcessError:
             return "Error"
@@ -39,7 +39,7 @@ def test_fontmetadata():
     with open("./tests/resources/dejavu-sans-boldoblique.dict", "r") as fd:
         preextracted_dict = json.loads(fd.read())
 
-    assert fontmetadata.get_font_metadata(
+    assert metadataparser.get_font_metadata(
         "./tests/resources/DejaVuSans-BoldOblique.ttf") == preextracted_dict
 
 
@@ -52,7 +52,7 @@ def test_fontsupportedlangs():
               "r") as fd:
         preextracted_dict = json.loads(fd.read())
 
-    assert fontmetadata.get_font_supported_langs(
+    assert metadataparser.get_font_supported_langs(
         "./tests/resources/DejaVuSans-BoldOblique.ttf") == preextracted_dict
 
 
@@ -64,5 +64,5 @@ def test_fontinfo():
     with open("./tests/resources/Gubbi.dict", "r") as fd:
         preextracted_dict = json.loads(fd.read())
 
-    assert fontmetadata.get_font_info(
+    assert metadataparser.get_font_info(
         "./tests/resources/Gubbi.ttf") == preextracted_dict

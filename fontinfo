@@ -9,20 +9,23 @@ import os
 
 __version__ = "0.1"
 
-USAGE = "%(prog)s [--yaml|--json] [-h | -o outputfile ] [ -d --directory | file[s]]"
+USAGE = """
+%(prog)s [--yaml|--json] [-h | -o outputfile ] [ -d --directory | file[s]]"""
 VERSION = "%(prog)s " + __version__
 EPILOG = """ file  OpenType font file
 """
 
+
 def font_glob(path):
     ttffonts = glob.glob(os.path.join(path, "*.ttf"))
     otffonts = glob.glob(os.path.join(path, "*.otf"))
-    
+
     if len(otffonts) > 0:
         ttffonts.extend(otffonts)
         return set(ttffonts)
     else:
         return set(ttffonts)
+
 
 def cmdline_handler(scriptname, argv):
     parser = argparse.ArgumentParser(
@@ -51,8 +54,8 @@ def cmdline_handler(scriptname, argv):
               file=sys.stderr)
         sys.exit(2)
 
-    fontmetadata = import_file_to_module("fontmetadata",
-                                         "fontmetadata/fontmetadata.hy")
+    metadataparser = import_file_to_module("metadataparser",
+                                           "metadataparser.hy")
 
     fontinfos = {}
     fonts = None
@@ -70,10 +73,10 @@ def cmdline_handler(scriptname, argv):
         fonts = options.args
 
     for font in fonts:
-        info = fontmetadata.get_font_info(font)
+        info = metadataparser.get_font_info(font)
         if info:
-            fontname = info["Family"] if "Family" in info else \
-                       os.path.normpath(font).split(os.path.sep)[-1].split(".")[0]
+            fontname = info["Family"] if "Family" in info else
+            os.path.normpath(font).split(os.path.sep)[-1].split(".")[0]
             fontinfos[fontname] = info
 
     output = None
@@ -94,13 +97,3 @@ def cmdline_handler(scriptname, argv):
 
 if __name__ == "__main__":
     cmdline_handler("fontinfo", sys.argv)
-
-
-
-
-
-
-
-
-
-
