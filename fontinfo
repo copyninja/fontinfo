@@ -70,7 +70,6 @@ def cmdline_handler(scriptname, argv):
         fonts = options.args
 
     for font in fonts:
-        print(font)
         info = fontmetadata.get_font_info(font)
         if info:
             fontname = info["Family"] if "Family" in info else \
