@@ -80,10 +80,10 @@ def cmdline_handler(scriptname, argv):
 
     if options.json:
         import json
-        output = json.dumps(fontinfos, indent=-4)
+        output = json.dumps(fontinfos, indent=0)
     elif options.yaml:
         import yaml
-        output = yaml.dump(fontinfos)
+        output = yaml.dump(fontinfos, width=50, indent=4)
 
     if options.outfile:
         with open(options.outfile, "w") as fd:
