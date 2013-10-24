@@ -3,16 +3,15 @@
 	[sys]
 	[re])
 
+(def nil False)
+(def t True)
+
 (defun font-exists? [fontfile]
-  "Predicate for checking existence of `fontfile`. Prints a non
-  existent statement and returns False if file is not physically
-  present, otherwise returns True"
+  "Predicate for checking existence of `fontfile`. Returns `nil` if
+  File doesn't exist and `t` if it exists"
   (if (not (exists fontfile))
-    (do
-     (kwapply (print "Please give existent font file")
-	      {"file" sys.stderr})
-     False)
-    True))
+     nil
+    t))
 
 (defun opentype2-scripts []
   "Some of new tags introduced in new OpenType specs, this can be
